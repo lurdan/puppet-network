@@ -1,0 +1,24 @@
+DEVICE=<%= name %>
+ONBOOT=<% if enable %>yes<% else %>no<% end %>
+IPV6INIT=<% if ipv6 %>yes<% else %>no<% end %>
+TYPE=Ethernet
+BOOTPROTO=<% case address -%>
+<% when 'dhcp' %>dhcp
+<% when false %>none
+<% else %>static
+<% if physdev %>PHYSDEV=<%= physdev %>
+<% end -%>
+<% if address %>IPADDR=<%= address %>
+<% end -%>
+<% if netmask %>NETMASK=<%= netmask %>
+<% end -%>
+<% if network %>NETWORK=<%= network %>
+<% end -%>
+<% if broadcast %>BROADCAST=<%= broadcast %>
+<% end -%>
+<% end -%>
+<% if macaddress %>HWADDR=<%= macaddress %>
+<% end -%>
+<% if bond_master %>MASTER=<%= bond_master %>
+SLAVE=yes
+<% end -%>

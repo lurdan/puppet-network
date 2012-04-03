@@ -1,0 +1,21 @@
+<% if enable %>auto <%= name %><% end -%>
+
+iface <%= name %> inet<% if ipv6 %>6<% end %> <% case address -%>
+<% when 'dhcp' %>dhcp
+<% when false %>manual
+<% else %>static
+<% if address %>    address <%= address %>
+<% end -%>
+<% if netmask %>    netmask <%= netmask %>
+<% end -%>
+<% if network %>    network <%= network %>
+<% end -%>
+<% if gateway %>    gateway <%= gateway %>
+<% end -%>
+<% end -%>
+<% if bond_slaves %>    slaves <%= bond_slaves %>
+<% if bond_mode %>    bond-mode <%= bond_mode %>
+<% end -%>
+<% if bond_options %>    <%= bond_options %>
+<% end -%>
+<% end %>
