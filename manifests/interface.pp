@@ -62,3 +62,4 @@ define network::interface::redhat::bond_slave (
 #    macaddress => $macaddress,
   }
 }
+

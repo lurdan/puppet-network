@@ -21,13 +21,17 @@ class network (
         'network::package::debian':
           bonding => $bonding,
           vlan => $vlan;
-        'network::config::debian':;
+        'network::config::debian':
+          notify => Service['network'],
+          require => Class['network::package::debian'];
       }
     }
     /(?i-mx:redhat|centos)/: {
       class {
         'network::package::redhat':;
         'network::config::redhat':
+          notify => Service['network'],
+          require => Class['network::package::redhat'],
           vlan => $vlan;
       }
     }
@@ -36,6 +40,10 @@ class network (
     }
   }
 
-  service { 'networking': }
+  service { 'network':
+    name => 'networking',
+    ensure => running,
+  }
+  Network::Interface <| |> -> Service['network']
 }
 
