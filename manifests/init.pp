@@ -41,7 +41,10 @@ class network (
   }
 
   service { 'network':
-    name => 'networking',
+    name => $::operatingsystem ? {
+      /(?i-mx:debian|ubuntu)/ => 'networking',
+      default => 'network',
+    },
     ensure => running,
   }
   Network::Interface <| |> -> Service['network']
