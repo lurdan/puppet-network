@@ -15,8 +15,8 @@ class network (
   $bonding = false,
   $vlan = false
   ) {
-  case $::operatingsystem {
-    /(?i-mx:debian|ubuntu)/: {
+  case $::osfamily {
+    'Debian': {
       class {
         'network::package::debian':
           bonding => $bonding,
@@ -26,9 +26,10 @@ class network (
           require => Class['network::package::debian'];
       }
     }
-    /(?i-mx:redhat|centos)/: {
+    'Redhat': {
       class {
-        'network::package::redhat':;
+        'network::package::redhat':
+          vlan => $vlan;
         'network::config::redhat':
           notify => Service['network'],
           require => Class['network::package::redhat'],
@@ -41,10 +42,12 @@ class network (
   }
 
   service { 'network':
-    name => $::operatingsystem ? {
-      /(?i-mx:debian|ubuntu)/ => 'networking',
+    name => $::osfamily ? {
+      'Debian' => 'networking',
       default => 'network',
     },
+    hasstatus => false,
+    status => '/bin/true',
     ensure => running,
   }
   Network::Interface <| |> -> Service['network']

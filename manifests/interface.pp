@@ -16,14 +16,14 @@ define network::interface (
 #    bond-updelay 200'
   ) {
 
-  case $::operatingsystem {
-    /(?i-mx:debian|ubuntu)/: {
+  case $::osfamily {
+    'Debian': {
       concat::fragment { "network-interface-$name":
         target => '/etc/network/interfaces',
         content => template('network/debian/interface.erb'),
       }
     }
-    /(?i-mx:redhat|centos)/: {
+    'RedHat': {
 
       file { "/etc/sysconfig/network-scripts/ifcfg-$name":
         mode => 600,
@@ -39,11 +39,13 @@ define network::interface (
       }
 
       if $bond_slaves {
-        # TODO: modprobe にbond option を追加
-        # "alias $name bonding\noptions bonding mode=.. miimon=..."
+        module-init-tools::config::modprobe { 'bonding':
+          content => "alias bond0 bonding\noptions bonding mode=${bond_mode} ${bond_options}",
+        }
 
-        # 物理 IF 設定
-        network::interface::redhat::bond_slave { $bond_slaves:
+        # physical interface
+        $slaves = split($bond_slaves, ' ')
+        network::interface::redhat::bond_slave { $slaves:
           bond_master => "$name",
 #          macaddress => $macaddress,
         }
