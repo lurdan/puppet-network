@@ -19,7 +19,7 @@ define network::route (
 ');
       }
     }
-    'Redhat': {
+    'RedHat': {
       concat::fragment { "network-route-$name":
         target => "/etc/sysconfig/network-scripts/route-${device}",
         content => inline_template('<%= dest %><% if netmask %>/<%= netmask %><% end %> via <%= gateway %>'),

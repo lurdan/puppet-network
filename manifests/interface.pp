@@ -34,7 +34,7 @@ define network::interface (
       if $gateway {
         concat::fragment { "network-gateway-$name":
           target => '/etc/sysconfig/network',
-          content => "GATEWAY=$gateway",
+          content => "GATEWAY=${gateway}\n",
         }
       }
 

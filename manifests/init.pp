@@ -26,7 +26,7 @@ class network (
           require => Class['network::package::debian'];
       }
     }
-    'Redhat': {
+    'RedHat': {
       class {
         'network::package::redhat':
           vlan => $vlan;
