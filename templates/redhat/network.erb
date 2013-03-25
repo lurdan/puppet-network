@@ -1,3 +1,4 @@
 NETWORKING=yes
-NETWORKING_IPV6=no
+NETWORKING_IPV6=<%= scope.lookupvar('ipv6') ? 'yes' : 'no' %>
 HOSTNAME=<%= scope.lookupvar('::hostname') %>
+NOZEROCONF=<%= scope.lookupvar('zeroconf') ? 'no' : 'yes' %>

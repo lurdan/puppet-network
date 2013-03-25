@@ -1,4 +1,8 @@
-class network::config::redhat ( $vlan = false ) {
+class network::config::redhat (
+  $ipv6 = false,
+  $zeroconf = false,
+  $vlan = false,
+  ) {
 
   concat { '/etc/sysconfig/network':
     mode => 600,
