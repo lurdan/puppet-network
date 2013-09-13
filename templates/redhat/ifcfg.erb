@@ -2,6 +2,7 @@ DEVICE=<%= name %>
 ONBOOT=<% if enable %>yes<% else %>no<% end %>
 IPV6INIT=<% if ipv6 %>yes<% else %>no<% end %>
 TYPE=Ethernet
+NM_CONTROLLED=no
 BOOTPROTO=<% case address -%>
 <% when 'dhcp' %>dhcp
 <% when false %>none

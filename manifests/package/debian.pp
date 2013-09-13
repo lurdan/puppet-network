@@ -22,10 +22,13 @@ class network::package::debian (
       require => Anchor['network::package::debian::start'],
       before => Anchor['network::package::debian::end'],
     }
-    module-init-tools::module { '8021q':
-      require => Package['vlan', 'module-init-tools'],
+    linux::module { '8021q':
+      require => $::lsbdistcodename ? {
+        'wheezy' => Package['vlan', 'kmod'],
+        default => Package['vlan', 'module-init-tools'],
+      },
       notify => Service['networking'],
     }
-#    realize (Module-init-tools::Module['8021q'])
+#    realize (Linux::Module['8021q'])
   }
 }

@@ -39,7 +39,7 @@ define network::interface (
       }
 
       if $bond_slaves {
-        module-init-tools::config::modprobe { 'bonding':
+        linux::module::modprobe { 'bonding':
           content => "alias bond0 bonding\noptions bonding mode=${bond_mode} ${bond_options}",
         }
 
